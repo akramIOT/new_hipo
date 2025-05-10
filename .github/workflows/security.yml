@@ -1,0 +1,156 @@
+name: Security Scans
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Run weekly on Sunday at midnight
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'requirements*.txt'
+      - 'pyproject.toml'
+      - 'src/**/*.py'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'requirements*.txt'
+      - 'pyproject.toml'
+  workflow_dispatch:
+
+jobs:
+  dependency-check:
+    name: Dependency Security Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install safety
+    
+    - name: Run safety check
+      run: |
+        safety check -r requirements.txt -r requirements-dev.txt --output json > safety-report.json
+      continue-on-error: true
+    
+    - name: Generate safety report summary
+      run: |
+        echo "## Dependency Security Scan Results" > safety-summary.md
+        echo "### Found vulnerabilities:" >> safety-summary.md
+        VULNS=$(grep -c '"vulnerabilities": ' safety-report.json || echo "0")
+        
+        if [ "$VULNS" == "0" ]; then
+          echo "✅ No vulnerable dependencies found." >> safety-summary.md
+        else
+          echo "⚠️ Found $VULNS potentially vulnerable dependencies." >> safety-summary.md
+          echo "\`\`\`" >> safety-summary.md
+          cat safety-report.json | grep -A 5 '"vulnerability_id"' | head -n 20 >> safety-summary.md
+          echo "\`\`\`" >> safety-summary.md
+          echo "See the full report in the artifacts." >> safety-summary.md
+        fi
+        
+        cat safety-summary.md
+    
+    - name: Upload security scan results
+      uses: actions/upload-artifact@v4
+      with:
+        name: safety-scan-results
+        path: safety-report.json
+        retention-days: 30
+    
+    - name: Create summary
+      run: cat safety-summary.md >> $GITHUB_STEP_SUMMARY
+
+  code-security:
+    name: Code Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install bandit semgrep
+    
+    - name: Run bandit
+      run: |
+        bandit -r src/ -c pyproject.toml -f json -o bandit-results.json
+      continue-on-error: true
+    
+    - name: Run semgrep
+      uses: semgrep/semgrep-action@v1
+      with:
+        config: p/python
+        output: semgrep-results.json
+      continue-on-error: true
+    
+    - name: Generate bandit report summary
+      run: |
+        echo "## Bandit Security Scan Results" > bandit-summary.md
+        ISSUES=$(grep -c '"issue_severity": "HIGH"' bandit-results.json || echo "0")
+        
+        if [ "$ISSUES" == "0" ]; then
+          echo "✅ No high-severity security issues found." >> bandit-summary.md
+        else
+          echo "⚠️ Found $ISSUES high-severity security issues." >> bandit-summary.md
+          echo "\`\`\`" >> bandit-summary.md
+          cat bandit-results.json | grep -A 15 '"issue_severity": "HIGH"' | head -n 30 >> bandit-summary.md
+          echo "\`\`\`" >> bandit-summary.md
+          echo "See the full report in the artifacts." >> bandit-summary.md
+        fi
+        
+        cat bandit-summary.md
+    
+    - name: Upload security scan results
+      uses: actions/upload-artifact@v4
+      with:
+        name: code-security-results
+        path: |
+          bandit-results.json
+          semgrep-results.json
+        retention-days: 30
+    
+    - name: Create summary
+      run: cat bandit-summary.md >> $GITHUB_STEP_SUMMARY
+
+  secret-scanning:
+    name: Secret Scanning
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Run TruffleHog
+      uses: trufflesecurity/trufflehog-actions-scan@v1.0.0
+      with:
+        path: ./
+        base: ${{ github.event.repository.default_branch }}
+        head: HEAD
+        extra_args: --json
+      continue-on-error: true
+    
+    - name: Create summary report
+      run: |
+        echo "## Secret Scanning Results" > secrets-summary.md
+        echo "Please review the logs for any potential leaked secrets." >> secrets-summary.md
+        echo "If legitimate secrets are found, rotate them immediately and consider using GitHub Secrets or environment variables." >> secrets-summary.md
+        cat secrets-summary.md
+    
+    - name: Create summary
+      run: cat secrets-summary.md >> $GITHUB_STEP_SUMMARY
