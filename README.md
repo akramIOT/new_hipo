@@ -7,7 +7,7 @@ A modular and scalable infrastructure for deploying machine learning and LLM mod
 This project provides a comprehensive infrastructure for ML/LLM workflows, including:
 
 - Multi-cloud Kubernetes orchestration (AWS EKS and GCP GKE)
-- GPU-optimized autoscaling for ML/LLM workloads
+- GPU-optimized autoscaling for ML/LLM workloads based on GPU Metrics monitoring
 - Global API gateway with intelligent routing
 - Fault tolerance with cross-cloud failover
 - Cost optimization across cloud providers
