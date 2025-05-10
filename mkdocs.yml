@@ -1,0 +1,56 @@
+site_name: HIPO
+site_description: Multi-Cloud LLM Infrastructure
+repo_url: https://github.com/yourusername/hipo
+repo_name: yourusername/hipo
+
+theme:
+  name: material
+  palette:
+    primary: blue
+    accent: blue
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: [src]
+          selection:
+            docstring_style: google
+          setup_commands:
+            - import sys
+            - sys.path.append(".")
+          options:
+            show_root_heading: true
+            show_source: true
+            heading_level: 2
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Architecture:
+    - Overview: architecture/overview.md
+  - API Reference:
+    - Cloud: api/cloud.md
+    - Kubernetes: api/kubernetes.md
+    - Models: api/models.md
+  - Tutorials:
+    - Getting Started: tutorials/getting-started.md
+    - Secure Model Deployment: tutorials/secure-model-deployment.md
+  - Security Guide: security-guide.md
+  - README: README.md

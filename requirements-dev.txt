@@ -1,0 +1,21 @@
+# Development and testing dependencies
+pytest>=7.0.0
+pytest-cov>=4.0.0
+pytest-timeout>=2.0.0
+pytest-benchmark>=4.0.0
+black>=22.0.0
+flake8>=5.0.0
+isort>=5.10.0
+mypy>=0.990
+bandit>=1.7.0
+safety>=2.0.0
+pre-commit>=2.20.0
+
+# Mock tools for testing
+moto>=4.0.0
+responses>=0.22.0
+
+# Cloud provider dependencies for testing
+boto3>=1.26.0
+google-cloud-storage>=2.5.0
+azure-storage-blob>=12.14.0
