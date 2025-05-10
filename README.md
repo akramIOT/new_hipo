@@ -135,6 +135,13 @@ The platform includes a comprehensive Streamlit-based UI with the following feat
 - **Monitoring**: Real-time metrics, logs, and alerting dashboard
 - **Logs**: Searchable log viewer with filtering capabilities
 
+![New Note](https://github.com/user-attachments/assets/53aa90b6-7288-4c50-9bbb-7aa2d5492a2d)
+
+![New Note](https://github.com/user-attachments/assets/5b59f620-a71c-4ffb-8ab2-a4eaf28f6efd)
+
+![New Note](https://github.com/user-attachments/assets/d81bc6e9-cf60-4d3c-ab0a-bfdd6f0ab6b3)
+
+
 ## CI/CD Pipeline
 
 The project uses GitHub Actions for continuous integration and deployment. The CI/CD pipeline includes:
