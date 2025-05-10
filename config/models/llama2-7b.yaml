@@ -1,0 +1,56 @@
+###############################################
+# Model Configuration for Llama 2 7B
+###############################################
+
+name: llama2-7b
+version: "1.0"
+description: "Meta's Llama 2 7B open-source LLM"
+
+# Resource Requirements
+resource_requirements:
+  cpu: 4
+  memory: 16Gi
+  gpu: 1
+  gpu_memory: 16Gi
+
+# Container Configuration
+container:
+  image: llm-service/llama2:1.0
+  port: 8000
+  environment:
+    MODEL_PATH: /models/llama2-7b
+    MAX_BATCH_SIZE: "8"
+    MAX_TOKENS: "2048"
+    USE_VLLM: "true"
+    NUM_GPUS: "1"
+  volume_mounts:
+    - name: models-volume
+      mount_path: /models
+    - name: cache-volume
+      mount_path: /cache
+
+# Inference Configuration
+inference:
+  max_batch_size: 8
+  max_tokens: 2048
+  use_vllm: true
+  max_concurrent_requests: 16
+  batching_strategy: "dynamic"
+  precision: "fp16"
+
+# Performance Targets
+performance:
+  latency_p95_target: 500  # ms
+  tokens_per_second_target: 100
+  throughput_target: 10  # requests/second
+
+# Operational Configuration
+operational:
+  auto_restart: true
+  max_unavailable: 0
+  readiness_timeout: 300  # seconds
+  liveness_timeout: 30  # seconds
+  log_level: "INFO"
+  enable_metrics: true
+  enable_tracing: true
+  enable_profiling: false
