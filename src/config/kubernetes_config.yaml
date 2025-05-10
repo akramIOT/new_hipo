@@ -1,0 +1,290 @@
+##############################################
+# Configuration for Multi-Cloud Kubernetes LLM Infrastructure
+##############################################
+
+# Cloud Providers Configuration
+cloud_providers:
+  # AWS Configuration
+  aws:
+    enabled: true
+    region: us-west-2
+    secondary_regions: [eu-west-1]
+    vpc_id: vpc-example
+    subnet_ids: [subnet-example1, subnet-example2]
+    eks:
+      cluster_name: llm-cluster-aws
+      version: "1.24"
+      node_groups:
+        - name: gpu-nodes
+          instance_type: g4dn.xlarge
+          min_size: 1
+          max_size: 10
+          desired_capacity: 2
+          labels:
+            node-type: gpu
+          taints:
+            dedicated: gpu:NoSchedule
+        - name: cpu-nodes
+          instance_type: m5.xlarge
+          min_size: 2
+          max_size: 10
+          desired_capacity: 3
+          labels:
+            node-type: cpu
+
+  # GCP Configuration
+  gcp:
+    enabled: true
+    project_id: llm-project
+    region: us-central1
+    secondary_regions: [europe-west4]
+    network_name: llm-network
+    subnetwork_name: llm-subnet
+    gke:
+      cluster_name: llm-cluster-gcp
+      version: "1.24"
+      node_pools:
+        - name: gpu-nodes
+          machine_type: n1-standard-4
+          accelerator_type: nvidia-tesla-t4
+          accelerator_count: 1
+          min_count: 1
+          max_count: 10
+          initial_count: 2
+          labels:
+            node-type: gpu
+          taints:
+            dedicated: gpu:NoSchedule
+        - name: cpu-nodes
+          machine_type: n1-standard-4
+          min_count: 2
+          max_count: 10
+          initial_count: 3
+          labels:
+            node-type: cpu
+
+# API Gateway Configuration
+api_gateway:
+  # Global Load Balancer Configuration
+  global_lb:
+    type: cloudflare  # Options: cloudflare, aws_global_accelerator, gcp_global_lb
+    ttl: 60
+    health_check_interval: 30
+    failover_threshold: 3
+    routing_policy: latency  # Options: latency, geo, weighted
+    
+  # Per-Cloud API Gateway Configuration
+  aws_api_gateway:
+    type: api_gateway_v2
+    throttling_rate_limit: 1000
+    throttling_burst_limit: 100
+    
+  gcp_api_gateway:
+    type: cloud_endpoints
+    throttling_rate_limit: 1000
+    quota_limit: 10000
+    
+  # Security Configuration
+  security:
+    auth_type: oauth2  # Options: oauth2, api_key, cognito, firebase_auth
+    cors_enabled: true
+    allowed_origins: ["*"]
+    waf_enabled: true
+    ssl_enabled: true
+    min_tls_version: "1.2"
+
+# Kubernetes Configuration
+kubernetes:
+  namespace: llm-serving
+  service_account: llm-sa
+  
+  # Istio Service Mesh Configuration
+  istio:
+    enabled: true
+    mtls_enabled: true
+    gateway:
+      name: llm-gateway
+      replicas: 2
+    virtual_services:
+      - name: llm-routing
+        hosts: ["api.llm-service.com"]
+        gateways: ["llm-gateway"]
+        
+  # Network Policies
+  network_policies:
+    enabled: true
+    default_deny_all: true
+    allowed_namespaces: ["monitoring", "istio-system"]
+
+# LLM Model Configuration
+llm_models:
+  - name: gpt-j
+    version: "1.0"
+    resource_requirements:
+      cpu: 4
+      memory: 16Gi
+      gpu: 1
+    container:
+      image: llm-service/gpt-j:1.0
+      port: 8000
+      environment:
+        MODEL_PATH: /models/gpt-j
+      volume_mounts:
+        - name: models-volume
+          mount_path: /models
+      
+  - name: llama2-7b
+    version: "1.0"
+    resource_requirements:
+      cpu: 8
+      memory: 32Gi
+      gpu: 1
+    container:
+      image: llm-service/llama2:1.0
+      port: 8000
+      environment:
+        MODEL_PATH: /models/llama2-7b
+      volume_mounts:
+        - name: models-volume
+          mount_path: /models
+
+# Autoscaling Configuration
+autoscaling:
+  metrics:
+    collection_interval: 15  # seconds
+    gpu_metrics:
+      - name: duty_cycle
+        threshold: 80
+      - name: memory_used
+        threshold: 80
+      - name: power_usage
+        threshold: 90
+    queue_metrics:
+      - name: queue_length
+        threshold: 100
+      - name: queue_latency
+        threshold: 2000  # ms
+    response_metrics:
+      - name: latency_p95
+        threshold: 1000  # ms
+      - name: error_rate
+        threshold: 5  # percentage
+    cost_metrics:
+      - name: cost_per_request
+        threshold: 0.01  # dollars
+      - name: cost_per_hour
+        threshold: 10.0  # dollars
+  
+  scaling_config:
+    min_replicas: 1
+    max_replicas: 20
+    target_gpu_utilization: 70
+    target_queue_length: 50
+    scale_up_factor: 2
+    scale_down_factor: 0.5
+    stabilization_window_up: 60  # seconds
+    stabilization_window_down: 300  # seconds
+    enable_cost_based_scaling: true
+    max_cost_per_hour: 100  # dollars
+
+# Secret Management Configuration
+secrets:
+  # HashiCorp Vault Configuration
+  vault:
+    enabled: true
+    address: "https://vault.example.com:8200"
+    auth_method: kubernetes
+    secret_paths:
+      model_weights: "model-weights"
+      api_keys: "api-keys"
+      certificates: "certificates"
+    
+  # AWS Secrets Manager
+  aws_secrets_manager:
+    enabled: true
+    region: us-west-2
+    secret_prefix: "llm-service/"
+    
+  # GCP Secret Manager
+  gcp_secret_manager:
+    enabled: true
+    project_id: llm-project
+    secret_prefix: "llm-service-"
+  
+  # Secret Rotation
+  rotation:
+    enabled: true
+    schedule: "0 0 * * 0"  # Weekly on Sunday at midnight
+    rotation_window: 3600  # seconds
+    
+  # Model Weights Management
+  model_weights:
+    storage_type: s3  # Options: s3, gcs, both
+    s3_bucket: "llm-models"
+    gcs_bucket: "llm-models"
+    sync_enabled: true
+    sync_schedule: "0 0 * * *"  # Daily at midnight
+    encryption_enabled: true
+    versioning_enabled: true
+
+# Monitoring & Alerting Configuration
+monitoring:
+  # Prometheus Configuration
+  prometheus:
+    enabled: true
+    retention_days: 15
+    scrape_interval: 15s
+    
+  # Grafana Configuration
+  grafana:
+    enabled: true
+    default_dashboard: "llm-monitoring"
+    
+  # Alerts Configuration
+  alerts:
+    - name: high_gpu_utilization
+      description: "GPU utilization is over 90%"
+      query: 'gpu_utilization > 90'
+      for: 5m
+      severity: warning
+      
+    - name: high_error_rate
+      description: "Error rate is over 5%"
+      query: 'error_rate > 5'
+      for: 2m
+      severity: critical
+      
+    - name: high_latency
+      description: "P95 latency is over 2 seconds"
+      query: 'latency_p95 > 2000'
+      for: 5m
+      severity: warning
+      
+    - name: cost_budget_exceeded
+      description: "Hourly cost exceeded threshold"
+      query: 'cost_per_hour > 100'
+      for: 10m
+      severity: critical
+
+# Cost Management Configuration
+cost_management:
+  # Cost Optimization
+  optimization:
+    enable_spot_instances: true
+    aws_spot_max_price: 2.0
+    gcp_preemptible_probability: 0.8
+    
+  # Cost Monitoring
+  monitoring:
+    daily_budget: 1000  # dollars
+    monthly_budget: 20000  # dollars
+    cost_alert_threshold: 80  # percentage of budget
+    
+  # Cost Allocation
+  allocation:
+    enable_tagging: true
+    tag_keys:
+      - team
+      - environment
+      - model
+      - service
