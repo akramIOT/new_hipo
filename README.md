@@ -1,4 +1,4 @@
-# HIPO - Multi-Cloud Kubernetes ML Platform
+# HIPO (High Performance Multi-Cloud K8's Cluster Orchestration) - Multi-Cloud Kubernetes ML Platform
 
 A modular and scalable infrastructure for deploying machine learning and LLM models across multiple cloud providers.
 
