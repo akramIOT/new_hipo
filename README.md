@@ -40,6 +40,11 @@ This project provides a comprehensive infrastructure for ML/LLM workflows, inclu
 └── tests/              # Unit tests
 ```
 
+## System Design and Architecture: 
+
+![Uploading New Note.jpeg…]()
+
+
 ## Installation
 
 1. Clone the repository:
