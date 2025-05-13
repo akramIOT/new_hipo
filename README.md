@@ -13,7 +13,7 @@ This project provides a comprehensive infrastructure for ML/LLM workflows, inclu
 - Fault tolerance with cross-cloud failover
 - Cost optimization across cloud providers
 - Model training, evaluation, and serving
-- Streamlit-based UI for platform management
+- Streamlit-based UI for MCO platform management
 - Comprehensive observability with metrics and logging
 
 ## Project Structure
