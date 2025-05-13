@@ -50,8 +50,8 @@ This project provides a comprehensive infrastructure for ML/LLM workflows, inclu
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/ml-infra.git
-cd ml-infra
+git clone https://github.com/akramIOT/new_hipo.git
+
 ```
 
 2. Create a virtual environment:
