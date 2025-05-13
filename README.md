@@ -42,7 +42,7 @@ This project provides a comprehensive infrastructure for ML/LLM workflows, inclu
 
 ## System Design and Architecture: 
 
-![Uploading New Note.jpeg…]()
+![New Note](https://github.com/user-attachments/assets/989ae643-4f45-476a-9d9d-0e9177019aaf)
 
 
 ## Installation
