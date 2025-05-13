@@ -8,7 +8,8 @@ This project provides a comprehensive infrastructure for ML/LLM workflows, inclu
 
 - Multi-cloud Kubernetes orchestration (AWS EKS and GCP GKE)
 - GPU-optimized autoscaling for ML/LLM workloads based on GPU Metrics monitoring
-- Global API gateway with intelligent routing
+- Unified Control Plan with K8's SIG  CAPI Controller for KaaS - Kubernetes as a Service
+- Global API gateway with intelligent routing of incoming  Requests to Optimize for Cost, Latency Performance 
 - Fault tolerance with cross-cloud failover
 - Cost optimization across cloud providers
 - Model training, evaluation, and serving
