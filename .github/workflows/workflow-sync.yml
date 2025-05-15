@@ -1,0 +1,64 @@
+name: Sync GitHub Actions Workflows
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/*.yml'
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  sync-workflows:
+    name: Sync Workflow Files
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.WORKFLOW_SYNC_TOKEN }}
+    
+    - name: Setup Git User
+      run: |
+        git config --global user.name "GitHub Actions Bot"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+    
+    - name: Check if develop branch exists
+      id: check-develop
+      run: |
+        if git rev-parse --verify develop &>/dev/null; then
+          echo "exists=true" >> $GITHUB_OUTPUT
+        else
+          echo "exists=false" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Sync workflows to develop branch
+      if: steps.check-develop.outputs.exists == 'true'
+      run: |
+        # Checkout develop branch
+        git checkout develop
+        
+        # Create temporary branch for PR
+        git checkout -b sync-workflows-$(date +%Y%m%d%H%M%S)
+        
+        # Copy workflow files from main
+        git checkout main -- .github/workflows/
+        
+        # Check if there are changes
+        if ! git diff --staged --quiet; then
+          git commit -m "Sync workflow files from main branch
+          
+          This automated commit ensures workflow files stay in sync between main and develop branches.
+          
+          [skip ci]"
+          
+          git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
+          
+          # Create PR using gh cli
+          gh pr create --base develop --title "Sync workflow files from main branch" \
+            --body "This PR syncs GitHub Actions workflow files from the main branch to keep configurations consistent across branches."
+        else
+          echo "No changes to workflow files detected."
+        fi
+      env:
+        GITHUB_TOKEN: ${{ secrets.WORKFLOW_SYNC_TOKEN }}

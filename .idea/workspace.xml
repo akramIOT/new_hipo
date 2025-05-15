@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="cbd8ee9f-530c-4190-ab37-b8638df98cd2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AKRAM_LLM/RAG_BEDROCK" beforeDir="false" afterPath="$PROJECT_DIR$/../AKRAM_LLM/RAG_BEDROCK" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BCS/LLM_RESEARCH/AWS_RAG_2024/rag-using-langchain-amazon-bedrock-and-opensearch" beforeDir="false" afterPath="$PROJECT_DIR$/../BCS/LLM_RESEARCH/AWS_RAG_2024/rag-using-langchain-amazon-bedrock-and-opensearch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BCS/LLM_RESEARCH/WEBEX_VIDEO/Detect-Facial-Features" beforeDir="false" afterPath="$PROJECT_DIR$/../BCS/LLM_RESEARCH/WEBEX_VIDEO/Detect-Facial-Features" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LLAMA_LLM_CPP/LLMetry_LLMOPS/llamatry" beforeDir="false" afterPath="$PROJECT_DIR$/../LLAMA_LLM_CPP/LLMetry_LLMOPS/llamatry" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LLAMA_LLM_CPP/Tuning-the-Finetuning" beforeDir="false" afterPath="$PROJECT_DIR$/../LLAMA_LLM_CPP/Tuning-the-Finetuning" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LLAMA_LLM_CPP/ciscolive" beforeDir="false" afterPath="$PROJECT_DIR$/../LLAMA_LLM_CPP/ciscolive" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LLAMA_LLM_CPP/streamlit_langchain_pyats" beforeDir="false" afterPath="$PROJECT_DIR$/../LLAMA_LLM_CPP/streamlit_langchain_pyats" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LLM_SUMMARIZER/PromptInjectionBench" beforeDir="false" afterPath="$PROJECT_DIR$/../LLM_SUMMARIZER/PromptInjectionBench" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LLM_SUMMARIZER/meraki_genai_community_scraper" beforeDir="false" afterPath="$PROJECT_DIR$/../LLM_SUMMARIZER/meraki_genai_community_scraper" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/ci.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/ci.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/nightly-tests.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/nightly-tests.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 7
+}]]></component>
+  <component name="ProjectId" id="2x7NPgTrOrNKCbizmiSvLIco3y1" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "akram__review__ANS",
+    "settings.editor.selected.configurable": "preferences.fileTypes"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-14705d77f0bb-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.25659.43" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cbd8ee9f-530c-4190-ab37-b8638df98cd2" name="Changes" comment="" />
+      <created>1747285129960</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1747285129960</updated>
+    </task>
+    <servers />
+  </component>
+</project>

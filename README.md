@@ -161,7 +161,21 @@ The project uses GitHub Actions for continuous integration and deployment. The C
 - Docker image building and publishing
 - Automated deployment to development and production environments
 
-For details about the CI/CD setup and release process, see [CI/CD Guide](docs/ci-cd-guide.md).
+For details about the CI/CD setup and release process, see [CI/CD Guide](docs/ci-cd-guide.md) and [CI/CD Updates](docs/ci-cd-updates.md).
+
+### Local CI Validation
+
+You can run CI checks locally using the provided validation script:
+
+```bash
+# Make the script executable if needed
+chmod +x scripts/validate_ci.sh
+
+# Run the validation
+./scripts/validate_ci.sh
+```
+
+This will check your environment, run code quality tools, and validate configurations before you push your changes.
 
 ### GitHub Secrets Management
 
