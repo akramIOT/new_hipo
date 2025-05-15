@@ -243,7 +243,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@v5
       with:
-        images: yourusername/hipo
+        images: akramsheriff/hipo
         tags: |
           type=ref,event=branch
           type=semver,pattern={{version}}
@@ -292,8 +292,8 @@ jobs:
     
     - name: Verify deployment
       run: |
-        kubectl rollout status deployment/hipo-api -n default
-        kubectl get pods -n default
+        kubectl rollout status deployment/hipo-api -n hipo
+        kubectl get pods -n hipo
 
   deploy-prod:
     name: Deploy to Production
@@ -321,5 +321,5 @@ jobs:
     
     - name: Verify deployment
       run: |
-        kubectl rollout status deployment/hipo-api -n default
-        kubectl get pods -n default
+        kubectl rollout status deployment/hipo-api -n hipo
+        kubectl get pods -n hipo
