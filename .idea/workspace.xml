@@ -15,8 +15,6 @@
       <change beforePath="$PROJECT_DIR$/../LLAMA_LLM_CPP/streamlit_langchain_pyats" beforeDir="false" afterPath="$PROJECT_DIR$/../LLAMA_LLM_CPP/streamlit_langchain_pyats" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../LLM_SUMMARIZER/PromptInjectionBench" beforeDir="false" afterPath="$PROJECT_DIR$/../LLM_SUMMARIZER/PromptInjectionBench" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../LLM_SUMMARIZER/meraki_genai_community_scraper" beforeDir="false" afterPath="$PROJECT_DIR$/../LLM_SUMMARIZER/meraki_genai_community_scraper" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/aws.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/aws.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/release.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/release.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

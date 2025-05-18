@@ -89,6 +89,7 @@ The CI/CD pipeline is now fully configured and should work correctly. The follow
 1. **GitHub Secrets Setup**
    - Ensure all required secrets are configured in GitHub repository settings
    - Follow instructions in `docs/github-secrets-setup.md`
+   - Note: The workflow-sync.yml now uses the default GITHUB_TOKEN instead of requiring a custom WORKFLOW_SYNC_TOKEN
 
 2. **Pipeline Testing**
    - Run a full end-to-end test of the pipeline
